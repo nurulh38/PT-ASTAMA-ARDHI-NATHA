@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://domainkamu.com/sitemap.xml
+Sitemap: https://nurulh38.github.io/PT-ASTAMA-ARDHI-NATHA/sitemap.xml
