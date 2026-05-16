@@ -1,25 +1,335 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const visitorCount = document.getElementById("visitorCount");
-  const offerForm = document.getElementById("offerForm");
+:root {
+  --bg: #f8fafc;
+  --card: rgba(255, 255, 255, 0.9);
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: rgba(148, 163, 184, 0.2);
+  --primary: #f97316;
+  --primary-dark: #ea580c;
+  --shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+}
 
-  let count = localStorage.getItem("visitorCount");
-  count = count ? parseInt(count, 10) + 1 : 1;
-  localStorage.setItem("visitorCount", count);
-  if (visitorCount) visitorCount.textContent = count;
+* {
+  box-sizing: border-box;
+}
 
-  if (offerForm) {
-    offerForm.addEventListener("submit", (e) => {
-      e.preventDefault();
+html {
+  scroll-behavior: smooth;
+}
 
-      const nama = document.getElementById("nama").value.trim();
-      const perusahaan = document.getElementById("perusahaan").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const kebutuhan = document.getElementById("kebutuhan").value.trim();
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(180deg, #fff7ed 0%, #ffffff 40%, #f8fafc 100%);
+  color: var(--text);
+}
 
-      const pesan = `Halo PT. Astama Ardhi Natha,%0A%0ASaya ingin meminta penawaran.%0A%0ANama: ${encodeURIComponent(nama)}%0APerusahaan: ${encodeURIComponent(perusahaan)}%0AEmail: ${encodeURIComponent(email)}%0AKebutuhan: ${encodeURIComponent(kebutuhan)}`;
+a {
+  text-decoration: none;
+  color: inherit;
+}
 
-      const waLink = `https://wa.me/6282229779994?text=${pesan}`;
-      window.open(waLink, "_blank", "noopener,noreferrer");
-    });
+.nav-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.84);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar {
+  width: min(1200px, calc(100% - 32px));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.logo-title {
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.logo-subtitle {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.nav-links {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.nav-links a:hover {
+  color: var(--primary-dark);
+}
+
+.nav-cta,
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  padding: 13px 18px;
+  font-weight: 800;
+  transition: 0.2s ease;
+}
+
+.nav-cta,
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), #d97706);
+  color: #fff;
+  box-shadow: 0 14px 28px rgba(249, 115, 22, 0.22);
+}
+
+.btn-secondary {
+  background: #fff;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  color: var(--text);
+}
+
+.nav-cta:hover,
+.btn-primary:hover,
+.btn-secondary:hover {
+  transform: translateY(-1px);
+}
+
+.hero,
+.section,
+.contact-section {
+  width: min(1200px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.hero {
+  padding: 72px 0 40px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.badge,
+.hero-tag {
+  display: inline-flex;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #ffedd5;
+  color: #9a3412;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  line-height: 1.08;
+  margin: 16px 0;
+}
+
+.hero p,
+.section p,
+.contact-box p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.visitor-box,
+.stat-card,
+.info-card,
+.hero-card,
+.contact-box,
+.form-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+}
+
+.visitor-box {
+  display: inline-block;
+  padding: 16px 20px;
+  margin: 8px 0 22px;
+}
+
+.visitor-label {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.visitor-count {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--primary-dark);
+}
+
+.stats,
+.mini-grid,
+.grid-4 {
+  display: grid;
+  gap: 16px;
+}
+
+.stats {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.mini-grid,
+.grid-4 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.stat-card,
+.info-card,
+.mini-card {
+  padding: 18px;
+}
+
+.stat-card strong,
+.info-card h3,
+.mini-card strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.hero-card {
+  padding: 26px;
+}
+
+.hero-card h2 {
+  margin-top: 14px;
+  font-size: 1.8rem;
+}
+
+.mini-card {
+  border-radius: 18px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+}
+
+.section {
+  padding: 18px 0 56px;
+}
+
+.section h2,
+.contact-box h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.contact-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding-bottom: 64px;
+}
+
+.contact-box,
+.form-box {
+  padding: 24px;
+}
+
+.contact-info {
+  display: grid;
+  gap: 14px;
+  margin: 22px 0;
+}
+
+.contact-info a {
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.form-box {
+  display: grid;
+  gap: 14px;
+  align-self: start;
+}
+
+.form-box input,
+.form-box textarea {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 14px;
+  padding: 14px 16px;
+  font: inherit;
+  background: #fff;
+}
+
+.form-box textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.full {
+  width: 100%;
+  border: none;
+  cursor: pointer;
+}
+
+.footer {
+  text-align: center;
+  padding: 26px 16px 40px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  background: #fff;
+}
+
+@media (max-width: 900px) {
+  .hero,
+  .contact-section {
+    grid-template-columns: 1fr;
   }
-});
+
+  .stats,
+  .grid-4,
+  .mini-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    gap: 14px;
+  }
+}
